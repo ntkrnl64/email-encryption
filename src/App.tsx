@@ -9,6 +9,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ToastProvider } from './context/ToastContext';
 import { Generator } from './pages/Generator';
 import { Redirector } from './pages/Redirector';
+import { NotFound } from './pages/NotFound';
 import { Footer } from './components/Footer';
 
 const useSystemTheme = () => {
@@ -48,7 +49,7 @@ const App: React.FC = () => {
               <Routes>
                 <Route path="/" element={<Generator />} />
                 <Route path="/:method/:payload" element={<Redirector />} />
-                <Route path="*" element={<Generator />} />
+                <Route path="*" element={<NotFound />} />
               </Routes>
             </div>
 
