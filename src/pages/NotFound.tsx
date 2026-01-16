@@ -4,8 +4,7 @@ import {
   tokens, 
   Text, 
   Button,
-  shorthands,
-  mergeClasses
+  shorthands
 } from '@fluentui/react-components';
 import { 
   QuestionCircle48Regular, 
