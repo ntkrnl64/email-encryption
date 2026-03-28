@@ -1,18 +1,24 @@
-import React, { createContext, useContext, useId } from 'react';
+import React, { createContext, useContext, useId } from "react";
 import {
   Toaster,
   useToastController,
   Toast,
   ToastTitle,
   ToastBody,
-} from '@fluentui/react-components';
-import type { ToastIntent } from '@fluentui/react-components';
+} from "@fluentui/react-components";
+import type { ToastIntent } from "@fluentui/react-components";
 
-type NotifyFunction = (intent: ToastIntent, title: string, body?: string) => void;
+type NotifyFunction = (
+  intent: ToastIntent,
+  title: string,
+  body?: string,
+) => void;
 
 const ToastContext = createContext<NotifyFunction | undefined>(undefined);
 
-export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const toasterId = useId();
   const { dispatchToast } = useToastController(toasterId);
 
@@ -22,7 +28,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         <ToastTitle>{title}</ToastTitle>
         {body && <ToastBody>{body}</ToastBody>}
       </Toast>,
-      { intent }
+      { intent },
     );
   };
 
@@ -37,7 +43,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 export const useNotify = () => {
   const context = useContext(ToastContext);
   if (!context) {
-    throw new Error('useNotify must be used within a ToastProvider');
+    throw new Error("useNotify must be used within a ToastProvider");
   }
   return context;
 };

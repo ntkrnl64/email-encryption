@@ -1,0 +1,57 @@
+{
+  "generator": {
+    "title": "Email Encryption Generator",
+    "subtitle": "创建防爬虫的安全邮件链接",
+    "algorithm": "加密算法",
+    "to": "收件人 (To)",
+    "toPlaceholder": "user@example.com",
+    "invalidEmail": "请输入有效的邮箱地址",
+    "hideAdvanced": "隐藏高级选项",
+    "showAdvanced": "显示高级选项 (抄送/主题/正文)",
+    "cc": "抄送 (CC)",
+    "bcc": "密送 (BCC)",
+    "optional": "可选",
+    "subject": "主题 (Subject)",
+    "subjectPlaceholder": "邮件标题...",
+    "body": "正文 (Body)",
+    "bodyPlaceholder": "预设邮件内容...",
+    "generatedLink": "生成的安全链接",
+    "copied": "已复制!",
+    "clickToCopy": "点击复制",
+    "copiedTitle": "已复制",
+    "copiedBody": "链接已保存到剪贴板",
+    "copyFailedTitle": "复制失败",
+    "copyFailedBody": "无法写入剪贴板"
+  },
+  "redirector": {
+    "loading": "正在解析邮件信息...",
+    "missingParams": "链接格式不完整或参数缺失。",
+    "unsupportedAlgorithm": "不支持的加密算法类型: \"{{method}}\"",
+    "decryptFormatError": "解密内容格式错误。",
+    "decryptError": "解密过程中发生错误。",
+    "readyToSend": "准备发送邮件",
+    "invokingClient": "正在唤起邮件客户端...",
+    "openMailApp": "立即打开邮件应用",
+    "copyRecipient": "仅复制收件人地址",
+    "generateLink": "我也要生成一个安全链接",
+    "copiedLabel": "已复制 {{label}}",
+    "recipientLabel": "收件人",
+    "copyFailed": "复制失败",
+    "clipboardError": "无法访问剪贴板"
+  },
+  "error": {
+    "cannotParseLink": "无法解析链接",
+    "goHome": "返回首页"
+  },
+  "notFound": {
+    "title": "页面未找到",
+    "description": "抱歉，您访问的页面不存在或已被移除。",
+    "goHome": "返回首页",
+    "goBack": "返回上一页"
+  },
+  "footer": {
+    "license": "Licensed under GPL v3",
+    "github": "GitHub Repository",
+    "copyright": "© {{year}} email-encryption"
+  }
+}

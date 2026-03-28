@@ -1,73 +1,89 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo } from "react";
 import {
-  makeStyles, tokens, Input, Dropdown, Option,
-  Card, CardHeader, Text, Textarea,
-  Button, Field, Tooltip, Divider
-} from '@fluentui/react-components';
-import type { SelectionEvents, OptionOnSelectData, InputOnChangeData, TextareaOnChangeData } from '@fluentui/react-components';
+  makeStyles,
+  tokens,
+  Input,
+  Dropdown,
+  Option,
+  Card,
+  CardHeader,
+  Text,
+  Textarea,
+  Button,
+  Field,
+  Tooltip,
+  Divider,
+} from "@fluentui/react-components";
+import type {
+  SelectionEvents,
+  OptionOnSelectData,
+  InputOnChangeData,
+  TextareaOnChangeData,
+} from "@fluentui/react-components";
 import {
   LockClosed24Regular,
   Copy24Regular,
   Mail24Regular,
   CheckmarkCircle24Regular,
   ChevronDown24Regular,
-  ChevronUp24Regular
-} from '@fluentui/react-icons';
+  ChevronUp24Regular,
+} from "@fluentui/react-icons";
+import { useTranslation } from "react-i18next";
 
-import { algorithms, constructMailto } from '../utils/crypto';
-import type { AlgorithmType } from '../utils/crypto';
-import { useNotify } from '../context/ToastContext';
+import { algorithms, constructMailto } from "../utils/crypto";
+import type { AlgorithmType } from "../utils/crypto";
+import { useNotify } from "../context/ToastContext";
 
 const useStyles = makeStyles({
   container: {
-    display: 'flex',
-    justifyContent: 'center',
-    padding: '24px',
+    display: "flex",
+    justifyContent: "center",
+    padding: "24px",
     backgroundColor: tokens.colorNeutralBackground2,
-    minHeight: '100vh',
+    minHeight: "100vh",
   },
   card: {
-    width: '100%',
-    maxWidth: '550px',
-    height: 'fit-content',
+    width: "100%",
+    maxWidth: "550px",
+    height: "fit-content",
     boxShadow: tokens.shadow8,
   },
   formStack: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '16px',
-    marginTop: '10px',
+    display: "flex",
+    flexDirection: "column",
+    gap: "16px",
+    marginTop: "10px",
   },
   gridRow: {
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gap: '16px',
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gap: "16px",
   },
   advancedArea: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '16px',
-    paddingTop: '8px',
+    display: "flex",
+    flexDirection: "column",
+    gap: "16px",
+    paddingTop: "8px",
     animationName: {
-      from: { opacity: 0, height: '0px', transform: 'translateY(-10px)' },
-      to: { opacity: 1, height: 'auto', transform: 'translateY(0)' },
+      from: { opacity: 0, height: "0px", transform: "translateY(-10px)" },
+      to: { opacity: 1, height: "auto", transform: "translateY(0)" },
     },
-    animationDuration: '0.25s',
-    animationTimingFunction: 'ease-out',
+    animationDuration: "0.25s",
+    animationTimingFunction: "ease-out",
   },
   resultInput: {
     fontFamily: tokens.fontFamilyMonospace,
     color: tokens.colorBrandForeground1,
   },
   toggleButton: {
-    width: '100%',
-    marginTop: '8px',
+    width: "100%",
+    marginTop: "8px",
     color: tokens.colorNeutralForeground2,
-    ':hover': {
+    ":hover": {
       color: tokens.colorBrandForeground1,
       backgroundColor: tokens.colorNeutralBackgroundAlpha,
-    }
-  }
+    },
+  },
 });
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -75,26 +91,31 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const Generator: React.FC = () => {
   const styles = useStyles();
   const notify = useNotify();
+  const { t } = useTranslation();
 
-  const [algo, setAlgo] = useState<AlgorithmType>('base64');
+  const [algo, setAlgo] = useState<AlgorithmType>("base64");
   const [isAdvanced, setIsAdvanced] = useState(false);
   const [copied, setCopied] = useState(false);
 
   const [formData, setFormData] = useState({
-    to: '',
-    cc: '',
-    bcc: '',
-    subject: '',
-    body: ''
+    to: "",
+    cc: "",
+    bcc: "",
+    subject: "",
+    body: "",
   });
 
   const handleAlgoChange = (_: SelectionEvents, data: OptionOnSelectData) => {
     setAlgo(data.optionValue as AlgorithmType);
   };
 
-  const handleInputChange = (field: keyof typeof formData) =>
-    (_: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, data: InputOnChangeData | TextareaOnChangeData) => {
-      setFormData(prev => ({ ...prev, [field]: data.value }));
+  const handleInputChange =
+    (field: keyof typeof formData) =>
+    (
+      _: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+      data: InputOnChangeData | TextareaOnChangeData,
+    ) => {
+      setFormData((prev) => ({ ...prev, [field]: data.value }));
     };
 
   const isValidEmail = useMemo(() => {
@@ -103,18 +124,24 @@ export const Generator: React.FC = () => {
   }, [formData.to]);
 
   const generatedUrl = useMemo(() => {
-    if (!formData.to || !isValidEmail) return '';
+    if (!formData.to || !isValidEmail) return "";
 
     try {
       let contentToEncrypt = formData.to;
 
-      if (isAdvanced || formData.cc || formData.bcc || formData.subject || formData.body) {
+      if (
+        isAdvanced ||
+        formData.cc ||
+        formData.bcc ||
+        formData.subject ||
+        formData.body
+      ) {
         contentToEncrypt = constructMailto(
           formData.to,
           formData.cc,
           formData.bcc,
           formData.subject,
-          formData.body
+          formData.body,
         );
       }
 
@@ -125,20 +152,29 @@ export const Generator: React.FC = () => {
       const baseUrl = `${window.location.protocol}//${window.location.host}`;
       return `${baseUrl}/${algo}/${safePayload}`;
     } catch (e) {
-      return 'Error: Encryption Failed';
+      return "Error: Encryption Failed";
     }
   }, [formData, algo, isAdvanced, isValidEmail]);
 
   const copyToClipboard = () => {
-    if (generatedUrl && !generatedUrl.startsWith('Error')) {
-      navigator.clipboard.writeText(generatedUrl)
+    if (generatedUrl && !generatedUrl.startsWith("Error")) {
+      navigator.clipboard
+        .writeText(generatedUrl)
         .then(() => {
           setCopied(true);
-          notify('success', '已复制', '链接已保存到剪贴板');
+          notify(
+            "success",
+            t("generator.copiedTitle"),
+            t("generator.copiedBody"),
+          );
           setTimeout(() => setCopied(false), 2000);
         })
         .catch(() => {
-          notify('error', '复制失败', '无法写入剪贴板');
+          notify(
+            "error",
+            t("generator.copyFailedTitle"),
+            t("generator.copyFailedBody"),
+          );
         });
     }
   };
@@ -147,20 +183,32 @@ export const Generator: React.FC = () => {
     <div className={styles.container}>
       <Card className={styles.card}>
         <CardHeader
-          header={<Text weight="bold" size={500}>Email Encryption Generator</Text>}
-          description={<Text size={200}>创建防爬虫的安全邮件链接</Text>}
-          image={<LockClosed24Regular style={{ color: tokens.colorBrandForeground1 }} />}
+          header={
+            <Text weight="bold" size={500}>
+              {t("generator.title")}
+            </Text>
+          }
+          description={<Text size={200}>{t("generator.subtitle")}</Text>}
+          image={
+            <LockClosed24Regular
+              style={{ color: tokens.colorBrandForeground1 }}
+            />
+          }
         />
 
         <div className={styles.formStack}>
-          <Field label="加密算法">
+          <Field label={t("generator.algorithm")}>
             <Dropdown
               onOptionSelect={handleAlgoChange}
               value={algorithms[algo].name}
               selectedOptions={[algo]}
             >
               {Object.keys(algorithms).map((key) => (
-                <Option key={key} value={key} text={algorithms[key as AlgorithmType].name}>
+                <Option
+                  key={key}
+                  value={key}
+                  text={algorithms[key as AlgorithmType].name}
+                >
                   {algorithms[key as AlgorithmType].name}
                 </Option>
               ))}
@@ -168,16 +216,18 @@ export const Generator: React.FC = () => {
           </Field>
 
           <Field
-            label="收件人 (To)"
+            label={t("generator.to")}
             required
             validationState={!isValidEmail && formData.to ? "error" : "none"}
-            validationMessage={!isValidEmail && formData.to ? "请输入有效的邮箱地址" : null}
+            validationMessage={
+              !isValidEmail && formData.to ? t("generator.invalidEmail") : null
+            }
           >
             <Input
               type="email"
-              placeholder="user@example.com"
+              placeholder={t("generator.toPlaceholder")}
               value={formData.to}
-              onChange={handleInputChange('to')}
+              onChange={handleInputChange("to")}
               contentBefore={<Mail24Regular />}
             />
           </Field>
@@ -186,10 +236,14 @@ export const Generator: React.FC = () => {
             className={styles.toggleButton}
             appearance="transparent"
             size="small"
-            icon={isAdvanced ? <ChevronUp24Regular /> : <ChevronDown24Regular />}
+            icon={
+              isAdvanced ? <ChevronUp24Regular /> : <ChevronDown24Regular />
+            }
             onClick={() => setIsAdvanced(!isAdvanced)}
           >
-            {isAdvanced ? "隐藏高级选项" : "显示高级选项 (抄送/主题/正文)"}
+            {isAdvanced
+              ? t("generator.hideAdvanced")
+              : t("generator.showAdvanced")}
           </Button>
 
           {isAdvanced && (
@@ -197,37 +251,37 @@ export const Generator: React.FC = () => {
               <Divider />
 
               <div className={styles.gridRow}>
-                <Field label="抄送 (CC)">
+                <Field label={t("generator.cc")}>
                   <Input
                     value={formData.cc}
-                    onChange={handleInputChange('cc')}
-                    placeholder="可选"
+                    onChange={handleInputChange("cc")}
+                    placeholder={t("generator.optional")}
                   />
                 </Field>
-                <Field label="密送 (BCC)">
+                <Field label={t("generator.bcc")}>
                   <Input
                     value={formData.bcc}
-                    onChange={handleInputChange('bcc')}
-                    placeholder="可选"
+                    onChange={handleInputChange("bcc")}
+                    placeholder={t("generator.optional")}
                   />
                 </Field>
               </div>
 
-              <Field label="主题 (Subject)">
+              <Field label={t("generator.subject")}>
                 <Input
                   value={formData.subject}
-                  onChange={handleInputChange('subject')}
-                  placeholder="邮件标题..."
+                  onChange={handleInputChange("subject")}
+                  placeholder={t("generator.subjectPlaceholder")}
                 />
               </Field>
 
-              <Field label="正文 (Body)">
+              <Field label={t("generator.body")}>
                 <Textarea
                   value={formData.body}
-                  onChange={handleInputChange('body')}
+                  onChange={handleInputChange("body")}
                   resize="vertical"
                   rows={3}
-                  placeholder="预设邮件内容..."
+                  placeholder={t("generator.bodyPlaceholder")}
                 />
               </Field>
             </div>
@@ -235,21 +289,38 @@ export const Generator: React.FC = () => {
 
           {generatedUrl && (
             <Field
-              label="生成的安全链接"
-              validationState={generatedUrl.startsWith('Error') ? "error" : "success"}
-              style={{ marginTop: '10px' }}
+              label={t("generator.generatedLink")}
+              validationState={
+                generatedUrl.startsWith("Error") ? "error" : "success"
+              }
+              style={{ marginTop: "10px" }}
             >
               <Input
                 readOnly
                 value={generatedUrl}
                 className={styles.resultInput}
                 contentAfter={
-                  <Tooltip content={copied ? "已复制!" : "点击复制"} relationship="label">
+                  <Tooltip
+                    content={
+                      copied
+                        ? t("generator.copied")
+                        : t("generator.clickToCopy")
+                    }
+                    relationship="label"
+                  >
                     <Button
                       appearance="subtle"
-                      icon={copied ? <CheckmarkCircle24Regular color={tokens.colorPaletteGreenForeground1} /> : <Copy24Regular />}
+                      icon={
+                        copied ? (
+                          <CheckmarkCircle24Regular
+                            color={tokens.colorPaletteGreenForeground1}
+                          />
+                        ) : (
+                          <Copy24Regular />
+                        )
+                      }
                       onClick={copyToClipboard}
-                      disabled={generatedUrl.startsWith('Error')}
+                      disabled={generatedUrl.startsWith("Error")}
                       aria-label="Copy URL"
                     />
                   </Tooltip>

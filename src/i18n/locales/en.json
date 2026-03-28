@@ -1,0 +1,57 @@
+{
+  "generator": {
+    "title": "Email Encryption Generator",
+    "subtitle": "Create secure anti-crawler email links",
+    "algorithm": "Encryption Algorithm",
+    "to": "Recipient (To)",
+    "toPlaceholder": "user@example.com",
+    "invalidEmail": "Please enter a valid email address",
+    "hideAdvanced": "Hide Advanced Options",
+    "showAdvanced": "Show Advanced Options (CC/Subject/Body)",
+    "cc": "CC",
+    "bcc": "BCC",
+    "optional": "Optional",
+    "subject": "Subject",
+    "subjectPlaceholder": "Email subject...",
+    "body": "Body",
+    "bodyPlaceholder": "Preset email content...",
+    "generatedLink": "Generated Secure Link",
+    "copied": "Copied!",
+    "clickToCopy": "Click to copy",
+    "copiedTitle": "Copied",
+    "copiedBody": "Link saved to clipboard",
+    "copyFailedTitle": "Copy Failed",
+    "copyFailedBody": "Cannot write to clipboard"
+  },
+  "redirector": {
+    "loading": "Parsing email information...",
+    "missingParams": "Link format is incomplete or parameters are missing.",
+    "unsupportedAlgorithm": "Unsupported encryption algorithm: \"{{method}}\"",
+    "decryptFormatError": "Decrypted content format error.",
+    "decryptError": "An error occurred during decryption.",
+    "readyToSend": "Ready to Send Email",
+    "invokingClient": "Invoking mail client...",
+    "openMailApp": "Open Mail App Now",
+    "copyRecipient": "Copy Recipient Address Only",
+    "generateLink": "I also want to generate a secure link",
+    "copiedLabel": "Copied {{label}}",
+    "recipientLabel": "Recipient",
+    "copyFailed": "Copy Failed",
+    "clipboardError": "Cannot access clipboard"
+  },
+  "error": {
+    "cannotParseLink": "Cannot Parse Link",
+    "goHome": "Go Home"
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "Sorry, the page you visited does not exist or has been removed.",
+    "goHome": "Go Home",
+    "goBack": "Go Back"
+  },
+  "footer": {
+    "license": "Licensed under GPL v3",
+    "github": "GitHub Repository",
+    "copyright": "© {{year}} email-encryption"
+  }
+}
